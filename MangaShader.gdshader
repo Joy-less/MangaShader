@@ -1,5 +1,5 @@
 // Manga Shader for Godot (MIT)
-// Made by Joy-less: https://joy-less.itch.io
+// Made by Joy-less: https://github.com/Joy-less/MangaShader
 // Inspired by Exuin: https://godotshaders.com/shader/screentone-black-spaced-pixels
 
 shader_type canvas_item;
