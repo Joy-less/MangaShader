@@ -1,0 +1,223 @@
+[gd_scene load_steps=6 format=3 uid="uid://bdup7tbd0nsur"]
+
+[ext_resource type="Script" uid="uid://ogsq1b2gfbjt" path="res://Scripts/Main.cs" id="1_idj7w"]
+[ext_resource type="Shader" uid="uid://dtsp3opkkg1u8" path="res://Shaders/MangaShader.gdshader" id="2_idj7w"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_r150o"]
+viewport_path = NodePath("RenderSubViewport")
+
+[sub_resource type="World3D" id="World3D_idj7w"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kln2b"]
+shader = ExtResource("2_idj7w")
+shader_parameter/enabled = true
+shader_parameter/inverted = false
+shader_parameter/grayscale = false
+shader_parameter/strength = 0.3
+shader_parameter/light = 1.0
+shader_parameter/dark = 0.3
+shader_parameter/dot_spread = 17.0
+shader_parameter/dot_size = 1.0
+
+[node name="Main" type="Node" node_paths=PackedStringArray("InputFilesButton", "OutputDirectoryButton", "OutputFormatButton", "GenerateButton", "InputFileDialog", "OutputFileDialog", "RenderSubViewport", "RenderTextureRect")]
+script = ExtResource("1_idj7w")
+InputFilesButton = NodePath("Background/Options/ScrollContainer/BoxContainer/InputFiles/Button")
+OutputDirectoryButton = NodePath("Background/Options/ScrollContainer/BoxContainer/OutputDirectory/Button")
+OutputFormatButton = NodePath("Background/Options/ScrollContainer/BoxContainer/OutputFormat/Button")
+GenerateButton = NodePath("Background/Options/ScrollContainer/BoxContainer/Generate")
+InputFileDialog = NodePath("InputFileDialog")
+OutputFileDialog = NodePath("OutputFileDialog")
+RenderSubViewport = NodePath("RenderSubViewport")
+RenderTextureRect = NodePath("RenderSubViewport/RenderTextureRect")
+
+[node name="Background" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PreviewPanel" type="Panel" parent="Background"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -110.0
+offset_right = 220.0
+offset_bottom = 110.0
+grow_vertical = 2
+
+[node name="Preview" type="TextureRect" parent="Background/PreviewPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_r150o")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Background/PreviewPanel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 30.0
+grow_horizontal = 2
+text = "Preview"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Options" type="Panel" parent="Background"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -110.0
+offset_bottom = 110.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/Options"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxContainer" type="BoxContainer" parent="Background/Options/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+vertical = true
+
+[node name="InputFiles" type="Panel" parent="Background/Options/ScrollContainer/BoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Background/Options/ScrollContainer/BoxContainer/InputFiles"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -150.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Input Files"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Button" type="Button" parent="Background/Options/ScrollContainer/BoxContainer/InputFiles"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+text_overrun_behavior = 4
+
+[node name="OutputDirectory" type="Panel" parent="Background/Options/ScrollContainer/BoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Background/Options/ScrollContainer/BoxContainer/OutputDirectory"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -150.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Output Directory"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Button" type="Button" parent="Background/Options/ScrollContainer/BoxContainer/OutputDirectory"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "."
+text_overrun_behavior = 4
+
+[node name="OutputFormat" type="Panel" parent="Background/Options/ScrollContainer/BoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Background/Options/ScrollContainer/BoxContainer/OutputFormat"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -150.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Output Format"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Button" type="OptionButton" parent="Background/Options/ScrollContainer/BoxContainer/OutputFormat"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+text_overrun_behavior = 4
+
+[node name="Generate" type="Button" parent="Background/Options/ScrollContainer/BoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Generate"
+
+[node name="RenderSubViewport" type="SubViewport" parent="."]
+own_world_3d = true
+world_3d = SubResource("World3D_idj7w")
+transparent_bg = true
+canvas_item_default_texture_filter = 0
+
+[node name="RenderTextureRect" type="TextureRect" parent="RenderSubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ColorRect" type="ColorRect" parent="RenderSubViewport"]
+material = SubResource("ShaderMaterial_kln2b")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InputFileDialog" type="FileDialog" parent="."]
+title = "Open File(s)"
+position = Vector2i(0, 36)
+ok_button_text = "Open"
+file_mode = 1
+access = 2
+use_native_dialog = true
+
+[node name="OutputFileDialog" type="FileDialog" parent="."]
+auto_translate_mode = 1
+title = "Open a Directory"
+position = Vector2i(0, 36)
+ok_button_text = "Select Current Folder"
+file_mode = 2
+access = 2
+use_native_dialog = true
