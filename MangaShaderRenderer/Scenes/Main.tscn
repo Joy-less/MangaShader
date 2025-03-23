@@ -18,6 +18,7 @@ shader_parameter/light = 1.0
 shader_parameter/dark = 0.3
 shader_parameter/dot_spread = 17.0
 shader_parameter/dot_size = 1.0
+shader_parameter/alpha_threshold = 0.001
 
 [node name="Main" type="Node" node_paths=PackedStringArray("InputFilesButton", "OutputDirectoryButton", "OutputFormatButton", "GenerateButton", "InputFileDialog", "OutputFileDialog", "RenderSubViewport", "RenderTextureRect")]
 script = ExtResource("1_idj7w")

@@ -44,36 +44,40 @@ public partial class Main : Node {
         };
     }
     private void RenderPreview() {
-        SetImage(GetImagePaths(InputFilesButton.Text).First());
+        string PreviewImagePath = GetImagePaths(InputFilesButton.Text).First();
+        Image PreviewImage = Image.LoadFromFile(PreviewImagePath);
+        SetImage(PreviewImage);
     }
     private async GDTask GenerateAsync() {
         foreach (string ImagePath in GetImagePaths(InputFilesButton.Text)) {
-            Image RenderedImage = await RenderImageAsync(ImagePath);
-            SaveImage(RenderedImage, ImagePath, OutputDirectoryButton.Text, (ImageFormatType)OutputFormatButton.GetSelectedId());
+            Image InputImage = Image.LoadFromFile(ImagePath);
+            Image OutputImage = await RenderImageAsync(InputImage);
+            SaveImage(OutputImage, ImagePath, OutputDirectoryButton.Text, (ImageFormatType)OutputFormatButton.GetSelectedId());
         }
         RenderPreview();
     }
 
-    private void SetImage(string? ImagePath) {
-        if (ImagePath is not null) {
-            Image InputImage = Image.LoadFromFile(ImagePath);
-            ImageTexture InputTexture = ImageTexture.CreateFromImage(InputImage);
-            Vector2I InputImageSize = InputImage.GetSize();
+    private void SetImage(Image? Image) {
+        if (Image is not null) {
+            ImageTexture ImageTexture = ImageTexture.CreateFromImage(Image);
+            Vector2I ImageSize = Image.GetSize();
 
-            RenderTextureRect.Texture = InputTexture;
-            RenderSubViewport.Size = InputImageSize;
-            RenderTextureRect.Size = InputImageSize;
+            RenderTextureRect.Texture = ImageTexture;
+            RenderSubViewport.Size = ImageSize;
+            RenderTextureRect.Size = ImageSize;
         }
         else {
             RenderTextureRect.Texture = null;
         }
     }
-    private async GDTask<Image> RenderImageAsync(string ImagePath) {
-        SetImage(ImagePath);
+    private async GDTask<Image> RenderImageAsync(Image InputImage) {
+        SetImage(InputImage);
+
         await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
-        Image RenderedImage = RenderSubViewport.GetTexture().GetImage();
+
+        Image OutputImage = RenderSubViewport.GetTexture().GetImage();
         SetImage(null);
-        return RenderedImage;
+        return OutputImage;
     }
     private string[] GetImagePaths(string Path) {
         Path = Path.Trim();
