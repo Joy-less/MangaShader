@@ -1,5 +1,3 @@
-using System.Reflection;
-
 public partial class Main : Node {
     [Export] public Button InputFilesButton { get; set; }
     [Export] public Button OutputDirectoryButton { get; set; }
@@ -49,7 +47,6 @@ public partial class Main : Node {
         SetImage(GetImagePaths(InputFilesButton.Text).First());
     }
     private async GDTask GenerateAsync() {
-        GD.Print(string.Join(", ", GetImagePaths(InputFilesButton.Text)));
         foreach (string ImagePath in GetImagePaths(InputFilesButton.Text)) {
             Image RenderedImage = await RenderImageAsync(ImagePath);
             SaveImage(RenderedImage, ImagePath, OutputDirectoryButton.Text, (ImageFormatType)OutputFormatButton.GetSelectedId());
@@ -104,29 +101,6 @@ public partial class Main : Node {
     }
     private Error SaveImage(Image Image, string ImagePath, string OutputDirectory, ImageFormatType FormatType) {
         string SavePath = OutputDirectory.PathJoin(ImagePath.GetFile());
-
-        /*switch (FormatType) {
-            case ImageFormatType.Png: {
-                SavePath = System.IO.Path.ChangeExtension(SavePath, "png");
-                return Image.SavePng(SavePath);
-            }
-            case ImageFormatType.Jpeg: {
-                SavePath = System.IO.Path.ChangeExtension(SavePath, "jpeg");
-                return Image.SaveJpg(SavePath);
-            }
-            case ImageFormatType.LosslessWebp: {
-                SavePath = System.IO.Path.ChangeExtension(SavePath, "webp");
-                return Image.SaveWebp(SavePath);
-            }
-            case ImageFormatType.LossyWebp: {
-                SavePath = System.IO.Path.ChangeExtension(SavePath, "webp");
-                return Image.SaveWebp(SavePath, lossy: true);
-            }
-            default: {
-                throw new NotImplementedException(FormatType.ToString());
-            }
-        }*/
-
         SavePath = System.IO.Path.ChangeExtension(SavePath, FormatType switch {
             ImageFormatType.Png => "png",
             ImageFormatType.Jpeg => "jpeg",
@@ -135,7 +109,6 @@ public partial class Main : Node {
             _ => throw new NotImplementedException(FormatType.ToString())
         });
         SavePath = MakeFilePathUnique(SavePath);
-        GD.Print(SavePath);
 
         return FormatType switch {
             ImageFormatType.Png => Image.SavePng(SavePath),
